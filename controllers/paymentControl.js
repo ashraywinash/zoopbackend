@@ -31,8 +31,9 @@ async function createRazorpayOrder (req, res){
 async function validateOrder (req, res){
     try {
       
-      const {cartId, razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      const {cartId, toemail, razorpay_order_id, razorpay_payment_id, razorpay_signature } =
         req.body;
+
     
       const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
       //order_id + "|" + razorpay_payment_id
@@ -77,7 +78,7 @@ async function validateOrder (req, res){
 
       let mailOptions = {
         from: email,
-        to: 'aryashu448@gmail.com',
+        to: toemail,
         subject: 'Your order is placed 😋',
         html: `<img src=${QR_URL} alt="error occured"> <br> <h2>Scan this QR to collect your meal 🚀❤️ </h2>`
       };

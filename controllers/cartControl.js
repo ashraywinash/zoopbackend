@@ -4,12 +4,9 @@ const { cart } = require("../models/cart")
 
 async function createCart(req,res){
 
-
     try {
 
         // let listOfItems = JSON.parse(req.body.listOfItems)
-
-        
 
         const new_cart = await cart.create({
             etc: Date(req.body.etc),
@@ -29,12 +26,19 @@ async function createCart(req,res){
 
 }
 
+async function getCartByUserId(req, res) {
+    try {
+        const carts = await cart.find({'userId':req.query.userId}).populate('listOfItems')
+        return res.send(carts).status(200)
+    } catch (error) {
+        return res.send(null).status(400)
+    }
+}
+
 async function getCartByStoreId(req,res){
 
     try {
         const carts = await cart.find({'storeId':req.body.storeId}).populate('listOfItems')
-        
-
         return res.send(carts).status(200)
     } catch (error) {
         return res.send(null).status(400)
@@ -44,5 +48,6 @@ async function getCartByStoreId(req,res){
 
 module.exports = {
     createCart,
-    getCartByStoreId
+    getCartByStoreId,
+    getCartByUserId
 }

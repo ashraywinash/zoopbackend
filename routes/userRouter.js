@@ -3,6 +3,7 @@ const express = require("express");
 const userRouter = express.Router();
 
 const {createUserAccount,checkIfUserExists} = require("../controllers/userControl");
+const {getCartByUserId} = require("../controllers/cartControl");
 const { createCart } = require("../controllers/cartControl");
 const { preferenceRouter } = require("./preferenceRouter");
 
@@ -14,9 +15,12 @@ userRouter.route("/signin")
 userRouter.route("/signup")
 .post(createUserAccount);
 
+userRouter.route("/cart")
+.post(createCart)
+.get(getCartByUserId);
+
+
 userRouter.use("/preferences", preferenceRouter)
 
-userRouter.route("/cart")
-.post(createCart);
 
 module.exports = { userRouter };
